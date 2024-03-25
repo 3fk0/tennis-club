@@ -1,41 +1,29 @@
 package inqool.thingy.tennisreservationsystem.service;
 
+import inqool.thingy.tennisreservationsystem.api.model.TennisCourt;
 import inqool.thingy.tennisreservationsystem.api.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService extends EntityService<User> {
 
     private SessionFactory sessionFactory;
 
     public UserService() {
-        System.out.println("Balls");
-        try (StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure()
-                .build())
-        {
-            try {
-                sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            } catch (Exception e) {
-                StandardServiceRegistryBuilder.destroy(registry);
-            }
-        }
+        super(User.class);
     }
 
     public List<User> getAllUsers() {
         List<User> users;
 
+        Class<User> userClass = User.class;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            users = session.createQuery("SELECT u from User u", User.class).list();
+            users = session.createQuery("SELECT u from User u", userClass).list();
 
             session.getTransaction().commit();
         }
@@ -69,5 +57,17 @@ public class UserService {
             session.getTransaction().commit();
         }
         return users;
+    }
+
+    public void deleteAllUsers() {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            session.createMutationQuery("update User user set user.status = :status")
+                    .setParameter("status", Status.DELETED)
+                    .executeUpdate();
+
+            session.getTransaction().commit();
+        }
     }
 }

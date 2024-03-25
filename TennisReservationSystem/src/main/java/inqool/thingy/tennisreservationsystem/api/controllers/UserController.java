@@ -3,6 +3,7 @@ package inqool.thingy.tennisreservationsystem.api.controllers;
 import inqool.thingy.tennisreservationsystem.api.model.User;
 import inqool.thingy.tennisreservationsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.support.NullValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,5 +45,12 @@ public class UserController {
             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @RequestMapping(value = "/api/users", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<NullValue> deleteUser() {
+        userService.deleteAllUsers();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

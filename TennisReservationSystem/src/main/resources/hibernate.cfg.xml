@@ -11,11 +11,10 @@
         <property name="connection.username">sas</property>
 <!--        <property name="connection.password"></property>-->
 
-
-        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
-
         <property name="show_sql">true</property>
 
         <mapping class="inqool.thingy.tennisreservationsystem.api.model.User"/>
+        <mapping class="inqool.thingy.tennisreservationsystem.api.model.TennisCourt"/>
+        <mapping class="inqool.thingy.tennisreservationsystem.api.model.CourtType"/>
     </session-factory>
 </hibernate-configuration>
