@@ -2,7 +2,7 @@ package inqool.thingy.tennisreservationsystem.data;
 
 import inqool.thingy.tennisreservationsystem.api.model.CourtType;
 import inqool.thingy.tennisreservationsystem.api.model.TennisCourt;
-import inqool.thingy.tennisreservationsystem.service.ServiceProvider;
+import inqool.thingy.tennisreservationsystem.service.provider.ServiceProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import java.util.Random;
@@ -50,7 +50,7 @@ public abstract class TestData {
             int index = rand.nextInt(COURT_TYPE_NAMES.size());
             float hourlyRentPrice = rand.nextFloat(5, 25);
 
-            result.add(new CourtType(i, COURT_TYPE_NAMES.get(index), hourlyRentPrice));
+            result.add(new CourtType(COURT_TYPE_NAMES.get(index), hourlyRentPrice));
         }
 
         return result;

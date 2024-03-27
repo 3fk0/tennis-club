@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 public class TennisCourtController {
@@ -30,13 +31,11 @@ public class TennisCourtController {
 
     @RequestMapping(value = "/api/court", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<TennisCourt> insertNewTennisCourt(@RequestParam int courtTypeCode) {
-        Optional<CourtType> optionalCourtType = courtTypeService.getEntity(courtTypeCode);
-        if (optionalCourtType.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<TennisCourt> insertNewTennisCourt(@RequestParam int courtTypeId) {
+        CourtType courtType = courtTypeService.getEntity(courtTypeId);
+        if (courtType == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-
-        CourtType courtType = optionalCourtType.get();
         TennisCourt tennisCourt = tennisCourtService.insertEntity(new TennisCourt(courtType));
 
         return new ResponseEntity<>(tennisCourt, HttpStatus.CREATED);
@@ -45,13 +44,29 @@ public class TennisCourtController {
     @RequestMapping(value = "api/court/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<TennisCourt> getTennisCourtById(@PathVariable long id) {
-        Optional<TennisCourt> tennisCourtOptional = tennisCourtService.getEntity(id);
-        return tennisCourtOptional.isEmpty() ?
-                new ResponseEntity<>(HttpStatus.NO_CONTENT) :
-                new ResponseEntity<>(tennisCourtOptional.get(), HttpStatus.OK);
+        return new ResponseEntity<>(tennisCourtService.getEntity(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "api/court/{id}")
+    @RequestMapping(value = "api/courts", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<TennisCourt>> getAllTennisCourts() {
+        return new ResponseEntity<>(tennisCourtService.getAllEntities(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/court/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<TennisCourt> updateTennisCourt(@PathVariable long id, @RequestParam long courtTypeId) {
+        CourtType courtType = courtTypeService.getEntity(courtTypeId);
+        TennisCourt tennisCourt = tennisCourtService.getEntity(id);
+        if (courtType == null || tennisCourt == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        tennisCourt.setCourtType(courtType);
+        return new ResponseEntity<>(tennisCourtService.updateEntity(tennisCourt), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "api/court/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<TennisCourt> deleteTennisCourt(@PathVariable long id) {
         tennisCourtService.softEntityDelete(id);

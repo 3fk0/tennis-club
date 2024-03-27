@@ -1,22 +1,24 @@
 package inqool.thingy.tennisreservationsystem.api.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class CourtType {
 
     @Id
-    private int courtTypeCode;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
 
     private float rentForHour;
 
     public CourtType() { }
 
-    public CourtType(int courtTypeCode, String name, float rentForHour) {
+    public CourtType(String name, float rentForHour) {
         this.name = name;
-        this.courtTypeCode = courtTypeCode;
         this.rentForHour = rentForHour;
     }
 
@@ -24,8 +26,11 @@ public class CourtType {
         return name;
     }
 
-    public int getCourtTypeCode() {
-        return courtTypeCode;
+    public int getId() {
+        return id;
     }
 
+    public float getRentForHour() {
+        return rentForHour;
+    }
 }

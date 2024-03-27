@@ -22,7 +22,7 @@ public class TennisCourt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "courtTypeCode")
     private CourtType courtType;
 
@@ -42,5 +42,9 @@ public class TennisCourt {
 
     public CourtType getCourtType() {
         return courtType;
+    }
+
+    public void setCourtType(CourtType courtType) {
+        this.courtType = courtType;
     }
 }

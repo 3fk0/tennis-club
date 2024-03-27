@@ -1,10 +1,10 @@
 package inqool.thingy.tennisreservationsystem.service;
 
+import inqool.thingy.tennisreservationsystem.service.provider.ServiceProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * General CRD service for entities in the database based on their ids.
@@ -12,10 +12,11 @@ import java.util.Optional;
  * @param <T> represents the type of the object being manipulated with
  */
 
-public class EntityService<T> {
+public abstract class EntityService<T> {
 
     private final SessionFactory sessionFactory = ServiceProvider.getSessionFactory();
     private final Class<T> tClass;
+
 
     public EntityService(Class<T> tClass) {
         this.tClass = tClass;
@@ -33,21 +34,34 @@ public class EntityService<T> {
         return newEntity;
     }
 
-    public Optional<T> getEntity(long id) {
+    public T getEntity(long id) {
+        T result;
+
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            result = session.find(tClass, id);
+
+            session.getTransaction().commit();
+        }
+
+        return result;
+    }
+
+    public List<T> getAllEntities() {
         List<T> result;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            String sqlQuery = "select e from " + tClass.getName() + " e where e.id = :id";
+            String sqlQuery = "select e from " + tClass.getName() + " e";
 
             result = session.createQuery(sqlQuery, tClass)
-                    .setParameter("id", id)
                     .getResultList();
 
             session.getTransaction().commit();
         }
 
-        return !result.isEmpty() ? Optional.of(result.get(0)) : Optional.empty();
+        return result;
     }
 
     public void softEntityDelete(long id) {
@@ -75,5 +89,16 @@ public class EntityService<T> {
 
             session.getTransaction().commit();
         }
+    }
+
+    public T updateEntity(T newEntity) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            session.merge(newEntity);
+
+            session.getTransaction().commit();
+        }
+        return newEntity;
     }
 }
