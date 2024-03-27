@@ -36,8 +36,8 @@ public class TennisCourtController {
         if (courtType == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        TennisCourt tennisCourt = tennisCourtService.insertEntity(new TennisCourt(courtType));
 
+        TennisCourt tennisCourt = tennisCourtService.insertEntity(new TennisCourt(courtType));
         return new ResponseEntity<>(tennisCourt, HttpStatus.CREATED);
     }
 

@@ -11,27 +11,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CourtTypeController {
 
-    private final CourtTypeService courtTypeService;
+    private final ArrayList<CourtType> courtTypes;
 
     @Autowired
     public CourtTypeController(CourtTypeService courtTypeService) {
-        this.courtTypeService = courtTypeService;
+        courtTypes = new ArrayList<>(courtTypeService.getAllEntities());
     }
 
     @RequestMapping(value = "/api/courtTypes", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<CourtType>> getAllCourtTypes() {
-        return new ResponseEntity<>(courtTypeService.getAllEntities(), HttpStatus.OK);
+        return new ResponseEntity<>(courtTypes, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/courtType/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<CourtType> getCourtType(@PathVariable long id) {
-        return new ResponseEntity<>(courtTypeService.getEntity(id), HttpStatus.OK);
+        Optional<CourtType> optionalCourtType = courtTypes.stream()
+                .filter(courtType -> courtType.getId() == id)
+                .findFirst();
+
+        if (optionalCourtType.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(optionalCourtType.get(), HttpStatus.OK);
     }
 }
