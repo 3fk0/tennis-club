@@ -1,7 +1,7 @@
-package inqool.thingy.tennisreservationsystem.service;
+package inqool.project.tennisreservationsystem.service;
 
-import inqool.thingy.tennisreservationsystem.api.model.Status;
-import inqool.thingy.tennisreservationsystem.service.provider.ServiceProvider;
+import inqool.project.tennisreservationsystem.api.model.Status;
+import inqool.project.tennisreservationsystem.service.provider.ServiceProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 

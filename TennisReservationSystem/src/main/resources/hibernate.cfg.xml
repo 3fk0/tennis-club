@@ -13,9 +13,9 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="inqool.thingy.tennisreservationsystem.api.model.User"/>
-        <mapping class="inqool.thingy.tennisreservationsystem.api.model.TennisCourt"/>
-        <mapping class="inqool.thingy.tennisreservationsystem.api.model.CourtType"/>
-        <mapping class="inqool.thingy.tennisreservationsystem.api.model.Reservation"/>
+        <mapping class="inqool.project.tennisreservationsystem.api.model.User"/>
+        <mapping class="inqool.project.tennisreservationsystem.api.model.TennisCourt"/>
+        <mapping class="inqool.project.tennisreservationsystem.api.model.CourtType"/>
+        <mapping class="inqool.project.tennisreservationsystem.api.model.Reservation"/>
     </session-factory>
 </hibernate-configuration>

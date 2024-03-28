@@ -1,7 +1,7 @@
-package inqool.thingy.tennisreservationsystem.api.controllers;
+package inqool.project.tennisreservationsystem.api.controllers;
 
-import inqool.thingy.tennisreservationsystem.api.model.CourtType;
-import inqool.thingy.tennisreservationsystem.service.CourtTypeService;
+import inqool.project.tennisreservationsystem.service.CourtTypeService;
+import inqool.project.tennisreservationsystem.api.model.CourtType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

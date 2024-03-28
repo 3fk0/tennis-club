@@ -1,4 +1,4 @@
-package inqool.thingy.tennisreservationsystem.api.model;
+package inqool.project.tennisreservationsystem.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;

@@ -1,4 +1,4 @@
-package inqool.thingy.tennisreservationsystem.service.provider;
+package inqool.project.tennisreservationsystem.service.provider;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

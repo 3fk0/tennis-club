@@ -1,6 +1,6 @@
-package inqool.thingy.tennisreservationsystem;
+package inqool.project.tennisreservationsystem;
 
-import inqool.thingy.tennisreservationsystem.data.TestData;
+import inqool.project.tennisreservationsystem.data.TestData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

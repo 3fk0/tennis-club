@@ -1,6 +1,6 @@
-package inqool.thingy.tennisreservationsystem.api.model.comparator;
+package inqool.project.tennisreservationsystem.api.model.comparator;
 
-import inqool.thingy.tennisreservationsystem.api.model.Reservation;
+import inqool.project.tennisreservationsystem.api.model.Reservation;
 
 import java.util.Comparator;
 

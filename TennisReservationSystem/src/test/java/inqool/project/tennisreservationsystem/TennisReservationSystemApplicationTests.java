@@ -1,4 +1,4 @@
-package inqool.thingy.tennisreservationsystem;
+package inqool.project.tennisreservationsystem;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;

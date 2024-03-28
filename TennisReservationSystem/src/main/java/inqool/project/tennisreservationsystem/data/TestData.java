@@ -1,8 +1,8 @@
-package inqool.thingy.tennisreservationsystem.data;
+package inqool.project.tennisreservationsystem.data;
 
-import inqool.thingy.tennisreservationsystem.api.model.CourtType;
-import inqool.thingy.tennisreservationsystem.api.model.TennisCourt;
-import inqool.thingy.tennisreservationsystem.service.provider.ServiceProvider;
+import inqool.project.tennisreservationsystem.api.model.CourtType;
+import inqool.project.tennisreservationsystem.api.model.TennisCourt;
+import inqool.project.tennisreservationsystem.service.provider.ServiceProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import java.util.Random;

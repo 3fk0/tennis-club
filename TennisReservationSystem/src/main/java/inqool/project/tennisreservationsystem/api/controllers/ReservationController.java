@@ -1,11 +1,11 @@
-package inqool.thingy.tennisreservationsystem.api.controllers;
+package inqool.project.tennisreservationsystem.api.controllers;
 
-import inqool.thingy.tennisreservationsystem.api.model.Reservation;
-import inqool.thingy.tennisreservationsystem.api.model.User;
-import inqool.thingy.tennisreservationsystem.api.model.comparator.ReservationCreationComparator;
-import inqool.thingy.tennisreservationsystem.api.model.comparator.ReservationIntervalComparator;
-import inqool.thingy.tennisreservationsystem.service.ReservationService;
-import inqool.thingy.tennisreservationsystem.service.UserService;
+import inqool.project.tennisreservationsystem.api.model.Reservation;
+import inqool.project.tennisreservationsystem.service.ReservationService;
+import inqool.project.tennisreservationsystem.service.UserService;
+import inqool.project.tennisreservationsystem.api.model.User;
+import inqool.project.tennisreservationsystem.api.model.comparator.ReservationCreationComparator;
+import inqool.project.tennisreservationsystem.api.model.comparator.ReservationIntervalComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

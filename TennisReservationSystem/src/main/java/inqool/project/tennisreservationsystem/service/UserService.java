@@ -1,6 +1,6 @@
-package inqool.thingy.tennisreservationsystem.service;
+package inqool.project.tennisreservationsystem.service;
 
-import inqool.thingy.tennisreservationsystem.api.model.User;
+import inqool.project.tennisreservationsystem.api.model.User;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package inqool.thingy.tennisreservationsystem.api.model;
+package inqool.project.tennisreservationsystem.api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
