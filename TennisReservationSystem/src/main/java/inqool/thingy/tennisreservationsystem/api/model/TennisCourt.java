@@ -1,6 +1,5 @@
 package inqool.thingy.tennisreservationsystem.api.model;
 
-import inqool.thingy.tennisreservationsystem.service.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,17 +22,19 @@ public class TennisCourt {
     private long id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "courtTypeCode")
+    @JoinColumn(name = "courtTypeId")
     private CourtType courtType;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private final Status status;
 
-    public TennisCourt() {}
+    public TennisCourt() {
+        this.status = Status.ALIVE;
+    }
 
     public TennisCourt(CourtType courtType) {
+        this();
         this.courtType = courtType;
-        this.status = Status.ALIVE;
     }
 
     public long getId() {

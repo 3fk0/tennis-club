@@ -31,7 +31,7 @@ public class TennisCourtController {
 
     @RequestMapping(value = "/api/court", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<TennisCourt> insertNewTennisCourt(@RequestParam int courtTypeId) {
+    public ResponseEntity<TennisCourt> insertNewTennisCourt(@RequestParam long courtTypeId) {
         CourtType courtType = courtTypeService.getEntity(courtTypeId);
         if (courtType == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

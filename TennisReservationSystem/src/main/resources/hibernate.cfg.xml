@@ -16,5 +16,6 @@
         <mapping class="inqool.thingy.tennisreservationsystem.api.model.User"/>
         <mapping class="inqool.thingy.tennisreservationsystem.api.model.TennisCourt"/>
         <mapping class="inqool.thingy.tennisreservationsystem.api.model.CourtType"/>
+        <mapping class="inqool.thingy.tennisreservationsystem.api.model.Reservation"/>
     </session-factory>
 </hibernate-configuration>

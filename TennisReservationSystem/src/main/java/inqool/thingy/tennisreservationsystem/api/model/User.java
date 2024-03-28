@@ -1,11 +1,8 @@
 package inqool.thingy.tennisreservationsystem.api.model;
 
-import inqool.thingy.tennisreservationsystem.service.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.SQLRestriction;
@@ -16,29 +13,31 @@ import org.hibernate.annotations.SQLRestriction;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String telephoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    Status status;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private final Status status;
 
-    public User() {}
-
-    public User(String name) {
-        this.name = name;
+    public User() {
         this.status = Status.ALIVE;
+    }
+
+    public User(String telephoneNumber, String name) {
+        this();
+        this.telephoneNumber = telephoneNumber;
+        this.name = name;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
     public String getName() {
         return name;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public Status getStatus() {
-        return status;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 }

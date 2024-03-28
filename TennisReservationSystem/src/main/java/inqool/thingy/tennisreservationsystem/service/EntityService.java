@@ -1,5 +1,6 @@
 package inqool.thingy.tennisreservationsystem.service;
 
+import inqool.thingy.tennisreservationsystem.api.model.Status;
 import inqool.thingy.tennisreservationsystem.service.provider.ServiceProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +13,7 @@ import java.util.List;
  * @param <T> represents the type of the object being manipulated with
  */
 
-public abstract class EntityService<T> {
+public abstract class EntityService<T, E> {
 
     private final SessionFactory sessionFactory = ServiceProvider.getSessionFactory();
     private final Class<T> tClass;
@@ -23,18 +24,24 @@ public abstract class EntityService<T> {
     }
 
     public T insertEntity(T newEntity) {
+        T result;
+        E id;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             session.persist(newEntity);
+            session.flush();
+            id = (E) session.getIdentifier(newEntity);
 
             session.getTransaction().commit();
         }
 
-        return newEntity;
+        result = getEntity(id);
+
+        return result;
     }
 
-    public T getEntity(long id) {
+    public T getEntity(E id) {
         T result;
 
         try (Session session = sessionFactory.openSession()) {
@@ -64,7 +71,7 @@ public abstract class EntityService<T> {
         return result;
     }
 
-    public void softEntityDelete(long id) {
+    public void softEntityDelete(E id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
@@ -78,7 +85,7 @@ public abstract class EntityService<T> {
         }
     }
 
-    public void hardEntityDelete(long id) {
+    public void hardEntityDelete(E id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
@@ -92,13 +99,31 @@ public abstract class EntityService<T> {
     }
 
     public T updateEntity(T newEntity) {
+        T result;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            session.merge(newEntity);
+            result = session.merge(newEntity);
 
             session.getTransaction().commit();
         }
-        return newEntity;
+        return result;
+    }
+
+    public boolean hasEntity(E id) {
+        boolean result;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            result = session.find(tClass, id) != null;
+
+            session.getTransaction().commit();
+        }
+
+        return result;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }
