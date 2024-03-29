@@ -11,6 +11,7 @@ public abstract class ServiceProvider {
     public static SessionFactory getSessionFactory() {
         System.out.println("Tennis Balls");
         if (SESSION_FACTORY == null) {
+
             try (StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                     .configure()
                     .build())

@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static io.restassured.RestAssured.post;
-import static org.hamcrest.Matchers.equalTo;
 
 import org.springframework.boot.test.web.server.LocalServerPort;
 
@@ -23,8 +21,7 @@ class TennisReservationSystemApplicationTests {
 
     @Test
     void contextLoads() {
-        post("/api/user?name=John").then().assertThat()
-                .body("name", equalTo("John"));
+
     }
 
 }

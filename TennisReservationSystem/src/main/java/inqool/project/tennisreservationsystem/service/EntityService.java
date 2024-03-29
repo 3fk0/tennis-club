@@ -85,19 +85,6 @@ public abstract class EntityService<T, E> {
         }
     }
 
-    public void hardEntityDelete(E id) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-
-            String sqlQuery = "delete " + tClass.getName() + " entity where entity.id = :id";
-            session.createMutationQuery(sqlQuery)
-                    .setParameter("id", id)
-                    .executeUpdate();
-
-            session.getTransaction().commit();
-        }
-    }
-
     public T updateEntity(T newEntity) {
         T result;
         try (Session session = sessionFactory.openSession()) {
