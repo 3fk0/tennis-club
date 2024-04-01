@@ -72,9 +72,9 @@ public class ReservationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/reservation/{phoneNumber}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/reservation", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Reservation>> getReservationsForPhoneNumber(@PathVariable String phoneNumber, @RequestParam Boolean onlyFuture) {
+    public ResponseEntity<List<Reservation>> getReservationsForPhoneNumber(@RequestParam String phoneNumber, @RequestParam Boolean onlyFuture) {
         List<Reservation> result = reservationService.getReservationsByPhoneNumber(phoneNumber);
 
         LocalDateTime localDateTimeNow = LocalDateTime.now();
@@ -85,6 +85,13 @@ public class ReservationController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/reservation/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Reservation> getReservationById(@PathVariable long id) {
+        Reservation reservation = reservationService.getEntity(id);
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/reservation", method = RequestMethod.PUT)

@@ -90,6 +90,36 @@ public class ReservationControllerTests {
     }
 
     @Test
+    public void GetInsertedReservation() {
+        User user1 = users.get(0);
+        user1.setTelephoneNumber("+421123456789");
+        TennisCourt tennisCourtOne = tennisCourts.get(0);
+        LocalDateTime localDateTimeStart = LocalDateTime.now();
+        LocalDateTime localDateTimeEnd = localDateTimeStart.plusHours(1);
+        Reservation reservationOne = new Reservation(user1, tennisCourtOne, GameType.SINGLES, localDateTimeStart, localDateTimeEnd);
+
+        given()
+                .contentType("application/json")
+                .body(reservationOne)
+                .when().post("/api/reservation")
+                .then().assertThat().statusCode(201);
+
+        Reservation[] reservations = given()
+                .pathParam("id", tennisCourtOne.getId())
+                .when().get("/api/court/{id}/reservation")
+                .thenReturn().as(Reservation[].class);
+
+        assert reservations.length == 1;
+
+        Reservation reservation = given()
+                .pathParam("id", reservations[0].getId())
+                .when().get("/api/reservation/{id}")
+                .thenReturn().as(Reservation.class);
+
+        assert reservation.getUser().getName().equals(reservations[0].getUser().getName());
+    }
+
+    @Test
     public void InsertNewReservationWithoutUserInDB() {
         User user1 = new User("+421123456789", "Tester");
         TennisCourt tennisCourtOne = tennisCourts.get(0);
@@ -104,9 +134,9 @@ public class ReservationControllerTests {
                 .then().assertThat().statusCode(201);
 
         Reservation[] reservations = given()
-                .pathParam("phoneNumber", "+421123456789")
-                .param("onlyFuture", true)
-                .when().get("/api/reservation/{phoneNumber}")
+                .queryParam("phoneNumber", "+421123456789")
+                .queryParam("onlyFuture", true)
+                .when().get("/api/reservation")
                 .thenReturn().as(Reservation[].class);
 
         assert reservations.length == 1;
