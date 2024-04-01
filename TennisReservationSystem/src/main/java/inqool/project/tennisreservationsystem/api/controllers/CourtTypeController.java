@@ -19,9 +19,11 @@ import java.util.Optional;
 public class CourtTypeController {
 
     private final ArrayList<CourtType> courtTypes;
+    private final CourtTypeService courtTypeService;
 
     @Autowired
     public CourtTypeController(CourtTypeService courtTypeService) {
+        this.courtTypeService = courtTypeService;
         courtTypes = new ArrayList<>(courtTypeService.getAllEntities());
     }
 
@@ -42,5 +44,10 @@ public class CourtTypeController {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
         return new ResponseEntity<>(optionalCourtType.get(), HttpStatus.OK);
+    }
+
+    public void reload() {
+        courtTypes.clear();
+        courtTypes.addAll(courtTypeService.getAllEntities());
     }
 }

@@ -8,9 +8,9 @@
         <property name="connection.driver_class">org.h2.Driver</property>
 <!--       URL used for persisting DB-->
 <!--        <property name="connection.url">jdbc:h2:./db/database;DB_CLOSE_DELAY=-1</property>-->
-
 <!--        URL used primarily for testing-->
         <property name="connection.url">jdbc:h2:mem:TennisReservationDB;DB_CLOSE_DELAY=-1</property>
+
         <property name="hbm2ddl.auto">update</property>
         <property name="connection.username">sas</property>
 <!--        <property name="connection.password"></property>-->

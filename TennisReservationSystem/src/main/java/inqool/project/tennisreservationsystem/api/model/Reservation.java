@@ -57,6 +57,7 @@ public class Reservation {
         this.reservationEnd = reservationEnd;
     }
 
+    @JsonIgnore
     public float getPrice() {
         Duration duration = Duration.between(reservationStart, reservationEnd);
         return gameType.getFinalPrice(tennisCourt.getCourtType().getRentForHour(), duration);
@@ -89,5 +90,9 @@ public class Reservation {
     @JsonIgnore
     public LocalDateTime getTimeOfCreation() {
         return timeOfCreation;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

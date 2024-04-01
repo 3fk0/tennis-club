@@ -72,4 +72,18 @@ public class TennisCourtTests {
 
         assert !tennisCourtService.hasEntity(tennisCourtResponse.getId());
     }
+
+    @Test
+    public void UpdatingOfTennisCourt() {
+        CourtType courtType = courtTypeService.insertEntity(new CourtType("Test", 1337));
+        CourtType courtType1 = courtTypeService.insertEntity(new CourtType("Another One", 15));
+        TennisCourt tennisCourtResponse = tennisCourtService.insertEntity(new TennisCourt(courtType));
+
+        assert tennisCourtResponse != null;
+
+        tennisCourtResponse.setCourtType(courtType1);
+        TennisCourt tennisCourtResponse1 = tennisCourtService.updateEntity(tennisCourtResponse);
+
+        assert tennisCourtResponse1.getCourtType().equals(courtType1);
+    }
 }

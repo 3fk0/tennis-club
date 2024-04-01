@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -73,12 +74,13 @@ public class ReservationController {
 
     @RequestMapping(value = "/api/reservation/{phoneNumber}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Reservation>> getReservationsForPhoneNumber(@PathVariable String phoneNumber, Boolean onlyFuture) {
+    public ResponseEntity<List<Reservation>> getReservationsForPhoneNumber(@PathVariable String phoneNumber, @RequestParam Boolean onlyFuture) {
         List<Reservation> result = reservationService.getReservationsByPhoneNumber(phoneNumber);
 
+        LocalDateTime localDateTimeNow = LocalDateTime.now();
         if (onlyFuture != null && onlyFuture) {
             result = result.stream()
-                    .filter(reservation -> reservation.getReservationStart().isAfter(LocalDateTime.now()))
+                    .filter(reservation -> reservation.getReservationStart().isAfter(localDateTimeNow))
                     .toList();
         }
 
