@@ -2,7 +2,6 @@ package inqool.project.tennisreservationsystem;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
@@ -17,11 +16,6 @@ class TennisReservationSystemApplicationTests {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
-    }
-
-    @Test
-    void contextLoads() {
-
     }
 
 }
