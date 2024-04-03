@@ -7,6 +7,11 @@ import jakarta.persistence.Id;
 
 import java.util.Objects;
 
+/**
+ * A class representing the type of tennis courts.
+ *
+ * @author Boris Lukačovič
+ */
 @Entity
 public class CourtType {
 

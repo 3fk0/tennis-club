@@ -15,6 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller class for REST api of CourtType.
+ *
+ * @author Boris Lukačovič
+ */
+
 @RestController
 public class CourtTypeController {
 
@@ -27,12 +33,20 @@ public class CourtTypeController {
         courtTypes = new ArrayList<>(courtTypeService.getAllEntities());
     }
 
+    /**
+     * @return the list of all courtTypes present at the beginning of the application
+     *         or after reload() method is called
+     */
     @RequestMapping(value = "/api/courtTypes", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<CourtType>> getAllCourtTypes() {
         return new ResponseEntity<>(courtTypes, HttpStatus.OK);
     }
 
+    /**
+     * @param id represents the id of the courtType to be returned
+     * @return the courtType with given id
+     */
     @RequestMapping(value = "/api/courtType/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<CourtType> getCourtType(@PathVariable long id) {
@@ -46,6 +60,9 @@ public class CourtTypeController {
         return new ResponseEntity<>(optionalCourtType.get(), HttpStatus.OK);
     }
 
+    /**
+     * The method is responsible for updating the actual courtTypes from the database
+     */
     public void reload() {
         courtTypes.clear();
         courtTypes.addAll(courtTypeService.getAllEntities());

@@ -15,6 +15,12 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Test data for the system.
+ * Can be also used for initialisation of courtTypes and tennisCourts.
+ *
+ * @author Boris Lukačovič
+ */
 
 public abstract class TestData {
 

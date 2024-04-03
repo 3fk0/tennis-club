@@ -17,6 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * Controller class for REST api of TennisCourt
+ *
+ * @author Boris Lukačovič
+ */
 @RestController
 public class TennisCourtController {
 
@@ -29,6 +34,12 @@ public class TennisCourtController {
         this.courtTypeService = courtTypeService;
     }
 
+    /**
+     * The method is responsible for the creation of a tennisCourt with given courtTypeId
+     *
+     * @param courtTypeId id of the courtType for the tennisCourt to be created with
+     * @return the newly created tennisCourt
+     */
     @RequestMapping(value = "/api/court", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<TennisCourt> insertNewTennisCourt(@RequestParam long courtTypeId) {
@@ -41,18 +52,32 @@ public class TennisCourtController {
         return new ResponseEntity<>(tennisCourt, HttpStatus.CREATED);
     }
 
+    /**
+     * @param id represents an id of a tennisCourt
+     * @return the tennisCourt belonging to given tennisCourtId
+     */
     @RequestMapping(value = "api/court/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<TennisCourt> getTennisCourtById(@PathVariable long id) {
         return new ResponseEntity<>(tennisCourtService.getEntity(id), HttpStatus.OK);
     }
 
+    /**
+     * @return all the tennisCourts in the database
+     */
     @RequestMapping(value = "api/courts", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<TennisCourt>> getAllTennisCourts() {
         return new ResponseEntity<>(tennisCourtService.getAllEntities(), HttpStatus.OK);
     }
 
+    /**
+     * The method is responsible for updating of tennisCourts
+     *
+     * @param id represents the id of a tennisCourt to be updated
+     * @param courtTypeId represents the new courtType of the tennisCourt
+     * @return the newly updated tennisCourt
+     */
     @RequestMapping(value = "/api/court/{id}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<TennisCourt> updateTennisCourt(@PathVariable long id, @RequestParam long courtTypeId) {
@@ -66,6 +91,12 @@ public class TennisCourtController {
         return new ResponseEntity<>(tennisCourtService.updateEntity(tennisCourt), HttpStatus.OK);
     }
 
+    /**
+     * The method is responsible for the soft-deletion of a tennisCourt
+     *
+     * @param id represents the id of the tennisCourt to be deleted
+     * @return no contend HttpStatus code
+     */
     @RequestMapping(value = "api/court/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<TennisCourt> deleteTennisCourt(@PathVariable long id) {

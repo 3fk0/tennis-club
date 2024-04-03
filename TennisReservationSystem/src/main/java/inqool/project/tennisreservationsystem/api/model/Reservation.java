@@ -15,8 +15,13 @@ import org.hibernate.annotations.SQLRestriction;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Class representing the Entity of Reservation
+ *
+ * @author Boris Lukačovič
+ */
 @Entity
-@SQLRestriction("status = 'ALIVE'")
+@SQLRestriction("deletedAt IS NULL")
 public class Reservation {
 
     @Id
@@ -37,13 +42,12 @@ public class Reservation {
     private LocalDateTime reservationStart;
 
     private LocalDateTime reservationEnd;
-    @Enumerated(EnumType.STRING)
-    private final Status status;
 
     private final LocalDateTime timeOfCreation;
 
+    private LocalDateTime deletedAt;
+
     public Reservation() {
-        this.status = Status.ALIVE;
         this.timeOfCreation = LocalDateTime.now();
     }
 

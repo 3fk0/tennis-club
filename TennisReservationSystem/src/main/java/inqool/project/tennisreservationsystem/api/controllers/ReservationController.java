@@ -1,10 +1,10 @@
 package inqool.project.tennisreservationsystem.api.controllers;
 
 import inqool.project.tennisreservationsystem.api.model.Reservation;
+import inqool.project.tennisreservationsystem.api.model.comparator.ReservationCreationComparator;
 import inqool.project.tennisreservationsystem.service.ReservationService;
 import inqool.project.tennisreservationsystem.service.UserService;
 import inqool.project.tennisreservationsystem.api.model.User;
-import inqool.project.tennisreservationsystem.api.model.comparator.ReservationCreationComparator;
 import inqool.project.tennisreservationsystem.api.model.comparator.ReservationIntervalComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TreeSet;
+
+/**
+ * Controller class for REST api of the Reservation class.
+ *
+ * @author Boris Lukačovič
+ */
 
 @RestController
 public class ReservationController {
@@ -39,6 +45,19 @@ public class ReservationController {
         reservationTreeSet.addAll(reservationService.getAllEntities());
     }
 
+    /**
+     * The method is responsible for validation of a Reservation.
+     * The validation process has 3 stages:
+     * 1) The phone number is checked for valid pattern.
+     * 2) Names of the users with same phone number are checked.
+     * 3) The interval of the new Reservation is checked against all others.
+     * <p>
+     * Once the validation is complete the Reservation gets inserted into the database.
+     * If the user doesn't exist, they will be created.
+     *
+     * @param reservation represents the reservation to be inserted
+     * @return the cost of the inserted reservation
+     */
     @RequestMapping(value = "/api/reservation", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Float> insertNewReservation(@RequestBody Reservation reservation) {
@@ -64,6 +83,13 @@ public class ReservationController {
         return new ResponseEntity<>(result.getPrice(), HttpStatus.CREATED);
     }
 
+    /**
+     * The method is responsible for the retrieval of all reservations on a given court with its id.
+     *
+     * @param id the id of the court
+     * @return list of reservations which are returned in ascending order based
+     *         on Reservation creation time
+     */
     @RequestMapping(value = "/api/court/{id}/reservation", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<TreeSet<Reservation>> getReservationsForCourtId(@PathVariable long id) {
@@ -72,6 +98,13 @@ public class ReservationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * The function is responsible for the retrieval of all reservations of given phoneNumber
+     *
+     * @param phoneNumber represents the phoneNumber under which the system registered the reservations
+     * @param onlyFuture if set to true, the method filters out all reservations started in the past
+     * @return list of Reservations for given phoneNumber
+     */
     @RequestMapping(value = "/api/reservation", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Reservation>> getReservationsForPhoneNumber(@RequestParam String phoneNumber, @RequestParam Boolean onlyFuture) {
@@ -87,6 +120,12 @@ public class ReservationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * Generic getter of reservations based on their id.
+     *
+     * @param id of the reservation
+     * @return the Reservation of given id
+     */
     @RequestMapping(value = "/api/reservation/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Reservation> getReservationById(@PathVariable long id) {
@@ -94,6 +133,14 @@ public class ReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
+    /**
+     * The method is responsible for updating existing Reservations. Similarly to inserting,
+     * the method checks for interval violation and user existence.
+     * If the user doesn't exist, they will be created.
+     *
+     * @param reservation represents the reservation to be updated
+     * @return the updated Reservation
+     */
     @RequestMapping(value = "/api/reservation", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<Reservation> updateReservation(@RequestBody Reservation reservation) {
@@ -115,6 +162,12 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.updateEntity(reservation), HttpStatus.OK);
     }
 
+    /**
+     * The method is responsible for the soft-deletion of a Reservation with given id.
+     *
+     * @param id represents the id of the Reservation to be deleted
+     * @return no content HttpStatus code
+     */
     @RequestMapping(value = "/api/reservation/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Reservation> deleteReservation(@PathVariable long id) {
         Reservation reservation = reservationService.getEntity(id);

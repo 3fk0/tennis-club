@@ -1,19 +1,23 @@
 package inqool.project.tennisreservationsystem.service;
 
-import inqool.project.tennisreservationsystem.api.model.Status;
 import inqool.project.tennisreservationsystem.service.provider.ServiceProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * General CRD service for entities in the database based on their ids.
+ * General CRUD services for entities in the database based on their
+ * non-composite primary keys - ids.
  *
  * @param <T> represents the type of the object being manipulated with
+ * @param <ID> represents the type of the primary key of the objects being manipulated with
+ *
+ * @author Boris Lukačovič
  */
 
-public abstract class EntityService<T, E> {
+public abstract class EntityService<T, ID> {
 
     private final SessionFactory sessionFactory = ServiceProvider.getSessionFactory();
     private final Class<T> tClass;
@@ -25,13 +29,13 @@ public abstract class EntityService<T, E> {
 
     public T insertEntity(T newEntity) {
         T result;
-        E id;
+        ID id;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             session.persist(newEntity);
             session.flush();
-            id = (E) session.getIdentifier(newEntity);
+            id = (ID) session.getIdentifier(newEntity);
 
             session.getTransaction().commit();
         }
@@ -41,7 +45,7 @@ public abstract class EntityService<T, E> {
         return result;
     }
 
-    public T getEntity(E id) {
+    public T getEntity(ID id) {
         T result;
 
         try (Session session = sessionFactory.openSession()) {
@@ -71,13 +75,13 @@ public abstract class EntityService<T, E> {
         return result;
     }
 
-    public void softEntityDelete(E id) {
+    public void softEntityDelete(ID id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            String sqlQuery = "update " + tClass.getName() + " entity set entity.status = :status where entity.id = :id";
+            String sqlQuery = "update " + tClass.getName() + " entity set entity.deletedAt = :status where entity.id = :id";
             session.createMutationQuery(sqlQuery)
-                    .setParameter("status", Status.DELETED)
+                    .setParameter("status", LocalDateTime.now())
                     .setParameter("id", id)
                     .executeUpdate();
 
@@ -97,7 +101,7 @@ public abstract class EntityService<T, E> {
         return result;
     }
 
-    public boolean hasEntity(E id) {
+    public boolean hasEntity(ID id) {
         boolean result;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();

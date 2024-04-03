@@ -2,8 +2,6 @@ package inqool.project.tennisreservationsystem.api.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,9 +10,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.time.LocalDateTime;
+
+/**
+ * The class represents the entity of a Tennis Court
+ *
+ * @author Boris Lukačovič
+ */
+
 @Entity
 @Table(name = "TennisCourts")
-@SQLRestriction("status = 'ALIVE'")
+@SQLRestriction("deletedAt IS NULL")
 public class TennisCourt {
 
     @Id
@@ -25,15 +31,11 @@ public class TennisCourt {
     @JoinColumn(name = "courtTypeId")
     private CourtType courtType;
 
-    @Enumerated(EnumType.STRING)
-    private final Status status;
+    private LocalDateTime deletedAt;
 
-    public TennisCourt() {
-        this.status = Status.ALIVE;
-    }
+    public TennisCourt() { }
 
     public TennisCourt(CourtType courtType) {
-        this();
         this.courtType = courtType;
     }
 

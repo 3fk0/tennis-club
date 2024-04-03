@@ -4,6 +4,12 @@ import inqool.project.tennisreservationsystem.api.model.Reservation;
 
 import java.util.Comparator;
 
+/**
+ * A comparator class for the comparison of tennisCourts and Reservation intervals
+ * Two reservations are different when they are played on different courts, or they don't overlap.
+ *
+ * @author Boris Lukačovič
+ */
 public class ReservationIntervalComparator implements Comparator<Reservation> {
     @Override
     public int compare(Reservation o1, Reservation o2) {

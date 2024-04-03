@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for Reservation.
+ *
+ * @author Boris Lukačovič
+ */
 @Service
 public class ReservationService extends EntityService<Reservation, Long> {
     public ReservationService() {
@@ -17,7 +22,8 @@ public class ReservationService extends EntityService<Reservation, Long> {
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            String sqlQuery = "select reservation from Reservation reservation where reservation.tennisCourt.id = :id";
+            String sqlQuery = "select reservation from Reservation reservation " +
+                    "where reservation.tennisCourt.id = :id";
             result = session.createQuery(sqlQuery, Reservation.class)
                     .setParameter("id", id)
                     .getResultList();
@@ -33,7 +39,8 @@ public class ReservationService extends EntityService<Reservation, Long> {
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            String sqlQuery = "select reservation from Reservation reservation where reservation.user.telephoneNumber like :phoneNumber";
+            String sqlQuery = "select reservation from Reservation reservation " +
+                    "where reservation.user.telephoneNumber like :phoneNumber";
             result = session.createQuery(sqlQuery, Reservation.class)
                     .setParameter("phoneNumber", phoneNumber)
                     .getResultList();

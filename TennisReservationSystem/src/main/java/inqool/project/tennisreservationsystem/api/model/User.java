@@ -4,6 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * A class representing the User.
+ * Users are distinguished by their phoneNumber.
+ *
+ * @author Boris Lukačovič
+ */
+
 @Entity
 @Table(name = "Users")
 public class User {
