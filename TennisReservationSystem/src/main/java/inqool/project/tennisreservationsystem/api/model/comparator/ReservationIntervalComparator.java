@@ -18,9 +18,16 @@ public class ReservationIntervalComparator implements Comparator<Reservation> {
         } else if (o1.getTennisCourt().getId() > o2.getTennisCourt().getId()) {
             return 1;
         }
+
         if (o1.getReservationEnd().isBefore(o2.getReservationStart())) {
             return -1;
         } else if (o2.getReservationEnd().isBefore(o1.getReservationStart())) {
+            return 1;
+        } else if (o1.getReservationEnd().isEqual(o2.getReservationStart()) &&
+                o1.getReservationStart().isBefore(o2.getReservationEnd())) {
+            return -1;
+        } else if (o2.getReservationEnd().isEqual(o1.getReservationStart()) &&
+                o2.getReservationStart().isBefore(o1.getReservationEnd())) {
             return 1;
         }
         return 0;
