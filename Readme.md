@@ -4,3 +4,5 @@ REST api endpoints for CRUD operations on Reservations and indiviual TennisCourt
 ## Setting up
 The project was build with maven. Upon compiling, the application starts blank.
 To prevent this, the application can be run with `--init` argument. With this argument, the application will generate and insert 2 CourtTypes and 4 TennisCourts into the database.
+## Running
+Once the application is running, you can interact with the REST api using http://localhost:8080/swagger-ui/index.html
