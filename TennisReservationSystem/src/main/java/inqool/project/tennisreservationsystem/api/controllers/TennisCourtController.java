@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,6 +42,7 @@ public class TennisCourtController {
      * @return the newly created tennisCourt
      */
     @RequestMapping(value = "/api/court", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<TennisCourt> insertNewTennisCourt(@RequestParam long courtTypeId) {
         CourtType courtType = courtTypeService.getEntity(courtTypeId);
@@ -98,6 +100,7 @@ public class TennisCourtController {
      * @return no contend HttpStatus code
      */
     @RequestMapping(value = "api/court/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @ResponseBody
     public ResponseEntity<TennisCourt> deleteTennisCourt(@PathVariable long id) {
         tennisCourtService.softEntityDelete(id);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -59,6 +60,7 @@ public class ReservationController {
      * @return the cost of the inserted reservation
      */
     @RequestMapping(value = "/api/reservation", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<Float> insertNewReservation(@RequestBody Reservation reservation) {
         if (!reservation.getUser().getTelephoneNumber().matches("^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"))
@@ -169,6 +171,8 @@ public class ReservationController {
      * @return no content HttpStatus code
      */
     @RequestMapping(value = "/api/reservation/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
     public ResponseEntity<Reservation> deleteReservation(@PathVariable long id) {
         Reservation reservation = reservationService.getEntity(id);
         reservationService.softEntityDelete(id);
