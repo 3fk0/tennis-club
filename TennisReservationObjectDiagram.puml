@@ -1,0 +1,37 @@
+@startuml TennisReservationAnalysisObjectDiagram
+
+class Reservation {
+    reservationStart
+    reservationEnd
+    timeOfCreation
+    ---
+    getPrice()
+}
+
+class TennisCourt { }
+
+class CourtType {
+    name
+    rentForHour
+}
+
+class User {
+    phoneNumber
+    name
+}
+
+enum GameType {
+    priceMultiplier
+    ---
+    SINGLES
+    DOUBLES
+    ---
+    getFinalPrice()
+}
+
+TennisCourt o--> CourtType : has
+Reservation o--> User : made by
+Reservation o--> GameType : will play
+Reservation o--> TennisCourt : reserving
+
+@enduml
